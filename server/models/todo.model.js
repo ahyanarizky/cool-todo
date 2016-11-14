@@ -5,8 +5,7 @@ const AutoIncrement = require('mongoose-sequence');
 let connection = mongoose.createConnection(process.env.DATABASE);
 let todoSchema = new mongoose.Schema({
     todoId: {
-        type: Number,
-        required: true
+        type: Number
     },
     todo: {
         type: String,
