@@ -1,33 +1,6 @@
-// var main = new Vue({
-//     el: '#main-container',
-//     data: {
-//         message: ''
-//     },
-//     methods: {
-//         createTodo: function() {
-//             axios.post('http://localhost:3000/api/todo', {
-//                     todo: this.data.message
-//                 })
-//                 .then(function(response) {
-//                     console.log(response);
-//                 })
-//                 .catch(function(error) {
-//                     console.log(error);
-//                 });
-//         },
-//         getAllTodo: function() {
-//             axios.get('http://localhost:3000/api/todo')
-//                 .then(function(response) {
-//                     console.log(response);
-//                 })
-//                 .catch(function(error) {
-//                     console.log(error);
-//                 });
-//
-//         }
-//     }
-// })
+$(document).ready(function() {
 
+})
 
 function loadTodo() {
     let html = ''
