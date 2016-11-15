@@ -11,11 +11,11 @@ function loadTodo() {
             for (var i = 0; i < data.length; i++) {
                 if (data[i].status === true) {
                     var element = `<span class="glyphicon glyphicon-ok" style="color:green"></span>`
-                    var btnToggle = `<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>`
+                    var btnToggle = `<button type="button" class="btn btn-danger" onclick="setStatus(${data[i].todo_id}, ${data[i].status})"><span class="glyphicon glyphicon-remove"></span></button>`
 
                 } else {
                     var element = `<span class="glyphicon glyphicon-remove" style="color:red"></span>`
-                    var btnToggle = `<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button>`
+                    var btnToggle = `<button type="button" class="btn btn-success" onclick="setStatus(${data[i].todo_id}, ${data[i].status})"><span class="glyphicon glyphicon-ok"></span></button>`
                 }
                 html += `
                 <div class="panel panel-default">
@@ -104,4 +104,26 @@ function functionEdit(parameter) {
             loadTodo()
         }
     })
+}
+
+function setStatus(id, currentStatus) {
+    if (currentStatus == true) {
+        var newStats = false
+    } else {
+        var newStats = true
+    }
+    console.log(newStats);
+    $.ajax({
+        url: `http://localhost:3000/api/todo/status/${id}`,
+        method: 'put',
+        data: {
+            status: newStats
+        },
+        success: function(data) {
+            $('#main-container').empty()
+            loadTodo()
+
+        }
+    })
+
 }
