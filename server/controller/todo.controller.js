@@ -13,6 +13,18 @@ module.exports = {
             }
         })
     },
+    getOneTodo: function(req, res, next) {
+        Todo.find({
+            todo_id: req.params.id
+        }, function(err, data) {
+            if (err) {
+                console.log(err);
+                res.json({ message: `Error : ${err}` })
+            } else {
+                res.json(data)
+            }
+        })
+    },
     createTodo: function(req, res, next) {
         Todo.create({
             todo: req.body.todo

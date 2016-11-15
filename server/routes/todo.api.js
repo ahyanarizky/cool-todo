@@ -5,6 +5,8 @@ const controller = require('../controller/todo.controller')
 /* GET users listing. */
 router.get('/todo', controller.getAllTodo)
 
+router.get('/todo/:id', controller.getOneTodo)
+
 router.post('/todo', controller.createTodo)
 
 router.put('/todo/:id', controller.updateTodoContent)
