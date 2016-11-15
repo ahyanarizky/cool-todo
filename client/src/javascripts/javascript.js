@@ -1,8 +1,13 @@
 $(document).ready(function() {
+    $('#nav-home a').on('click', loadTodo)
+    $('#nav-create a').on('click', createTodo)
 
 })
 
 function loadTodo() {
+    document.getElementById('nav-home').className = 'active'
+    document.getElementById('nav-create').className = ''
+    $('#main-container').empty()
     let html = ''
     $.ajax({
         url: `http://localhost:3000/api/todo`,
@@ -34,6 +39,7 @@ function loadTodo() {
                                 <span>
                                 <button type="button" class="btn btn-primary" onclick="formEdit(${data[i].todo_id})">Edit Task  <span class="glyphicon glyphicon-edit"></span></button>
                                 ${btnToggle}
+                                <button type="button" class="btn btn-warning" onclick="removeTodo(${data[i].todo_id})">  <span class="glyphicon glyphicon-trash">  </span></button>
                                 </span>
                             </div>
                         </div>
@@ -50,20 +56,40 @@ function loadTodo() {
 }
 
 function createTodo() {
+    document.getElementById('nav-home').className = ''
+    document.getElementById('nav-create').className = 'active'
+    $('#formForCreate').remove()
 
+    let html = ''
     html += `
-  <form>
-      <div class="form-group">
-          <label for="formGroupExampleInput">Example label</label>
-          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-      </div>
-      <div class="form-group">
-          <label for="formGroupExampleInput2">Another label</label>
-          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-      </div>
-  </form>
+    <form id='formForCreate'>
+        <div class="form-group">
+            <label for="form-create-task">Edit Task</label>
+            <input type="text" class="form-control" id="form-create-task" placeholder="Enter Task">
+        </div>
+        <div class="form-group">
+        <button type="button" class="btn btn-primary" onclick="addTask()">Create Task  <span class="glyphicon glyphicon-edit"></span></button>
+        </div>
+    </form>
 
   `
+    $('#main-container').prepend(html)
+}
+
+function addTask() {
+    let newTask = $('#form-create-task').val()
+    $.ajax({
+        url: `http://localhost:3000/api/todo`,
+        method: 'post',
+        data: {
+            todo: newTask
+        },
+        success: function(data) {
+            $('#formForCreate').remove()
+            $('#main-container').empty()
+            loadTodo()
+        }
+    })
 }
 
 function formEdit(parameter) {
@@ -112,7 +138,6 @@ function setStatus(id, currentStatus) {
     } else {
         var newStats = true
     }
-    console.log(newStats);
     $.ajax({
         url: `http://localhost:3000/api/todo/status/${id}`,
         method: 'put',
@@ -126,4 +151,14 @@ function setStatus(id, currentStatus) {
         }
     })
 
+}
+
+function removeTodo(parameter) {
+    $.ajax({
+        url: `http://localhost:3000/api/todo/${parameter}`,
+        method: 'delete',
+        success: function() {
+            loadTodo()
+        }
+    })
 }
